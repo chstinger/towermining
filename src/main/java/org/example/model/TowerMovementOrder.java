@@ -13,7 +13,7 @@ import org.example.util.Theta;
 @AllArgsConstructor
 public class TowerMovementOrder {
     enum Type {None,Rotate,MoveToTargetAndStop,MoveToTargetAndRotate,Stop}
-    Type type;
+    Type orderType;
     float targetPosTheta;
     float changeDeltaPosTheta;
     float rotateDeltaPosTheta;
@@ -23,17 +23,17 @@ public class TowerMovementOrder {
     }
 
     public float update(float theta,float delta) {
-        switch (type) {
+        switch (orderType) {
             case Rotate: theta += delta*rotateDeltaPosTheta; break;
             case MoveToTargetAndStop:
                 if (Theta.compareTheta(theta,targetPosTheta,changeDeltaPosTheta)) {
-                    type = Type.Stop;
+                    orderType = Type.Stop;
                 }
                 theta += delta*changeDeltaPosTheta;
                 break;
             case MoveToTargetAndRotate:
                 if (Theta.compareTheta(theta,targetPosTheta,changeDeltaPosTheta)) {
-                    type = Type.Rotate;
+                    orderType = Type.Rotate;
                 }
                 theta += delta*changeDeltaPosTheta;
                 break;
